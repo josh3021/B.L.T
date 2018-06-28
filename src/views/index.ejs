@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Welcome to B.L.T</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <h1>Welcome to B.L.T</h1>
+        <a id="profile">프로필</a>
+        <a href="/logout">로그아웃</a>
+        <a href="/main">지도</a>
+        <div id="username">
+            <p id="usernamep"><%= user.username %></p>
+        </div>
+    </body>
+    <script>
+        var username = document.getElementById('usernamep').innerHTML;
+        console.log('username: '+username);
+        $('#profile').prop('href', `/profile?username=${username}`);
+    </script>
+</html>
