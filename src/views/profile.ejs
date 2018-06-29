@@ -35,6 +35,13 @@
             <div class="admin">
                 <span><a href="/adminAuth">관리자 인증 받기</a></span>
             </div>
+	    <% if (danger === true) { %>
+		<div class="isDanger">
+			<form action="/profile/safe" method="post">
+				<input type="submit" value="안전" />
+			</form>
+		</div>
+	    <% } %>
         <script>
         </script>
     </body>

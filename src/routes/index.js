@@ -5,7 +5,7 @@ module.exports = app => {
         if(req.user) 
             res.render('index.ejs', {user: req.user});
         else
-            res.render('unlogined.ejs');
+            res.render('login.ejs');
     });
     
 };

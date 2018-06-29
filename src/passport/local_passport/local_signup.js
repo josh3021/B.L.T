@@ -13,39 +13,6 @@ module.exports = new LocalStrategy({
     console.log('username: %s, password: %s, email: %s', username, password, paramEmail);
 
     
-    nodemailer.createTestAccount((err, account) => {
-        if(err)
-            throw err;
-
-        let transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                user: "joseonghwan3021",
-                pass: "whtjdghks0403"
-            }
-        });
-
-        let randomID = makeid();
-
-        console.log('randomID: '+randomID);
-
-        let mailOptions = {
-            from: 'BLT <joseonghwan3021@gmail.com>',
-            to: 'yaostar@naver.com',
-            subject: 'Nodemailer 테스트',
-            html: '<h2>이메일 인증 링크</h2><div><p>밑의 문자열을 입력해 주세요</p><form action="http://45.119.146.229/emailAuth" method="POST"><label name="randomID">'+randomID+'</label><input type="text" name="token" placeholder="문자열 입력" /><input type="submit" value="이메일 인증"></form></div>'
-        }
-
-        transporter.sendMail(mailOptions, function(error, response){
-
-            if (error){
-                console.log(error);
-            } else {
-            }
-            transporter.close();
-        });
-    })
-
     process.nextTick(() => {
         var database = req.app.get('database');
 
@@ -78,14 +45,4 @@ module.exports = new LocalStrategy({
         })
     });
 
-    function makeid() {
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-        for( var i=0; i < 5; i++ )
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-        return text;
-    }
-    
 });

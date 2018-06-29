@@ -16,11 +16,14 @@ const Home = () => {
             <div>
                 <a href="/profile">프로필 페이지</a>
             </div>
+	    <div>
+		<a href="/login">로그인</a>
+	    </div>
             <div>
                 <a href="/logout">로그아웃</a>
             </div>
             <div>
-                <a href="/signup">회원가입</a>
+                <a href="/emailAuthen">회원가입</a>
             </div>
         </div>
     );

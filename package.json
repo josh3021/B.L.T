@@ -13,9 +13,11 @@
   "author": "seonghwan Jo",
   "license": "MIT",
   "dependencies": {
+    "auto-sni": "^2.3.2",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "browserify": "^16.2.2",
+    "connect-flash": "^0.1.1",
     "connect-redis": "^3.3.3",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.6.1",
