@@ -34,6 +34,7 @@ module.exports = (app) => {
         
         res.send('성공');
     });
+    });
 
     app.post('/profile/safe', (req, res) => {
    	let database = req.app.get('database');
