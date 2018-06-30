@@ -73,6 +73,7 @@ const profileRouter = require('./routes/profile');
 const mainRouter = require('./routes/main');
 const networkRouter = require('./routes/network');
 const reportTestRouter = require('./routes/reportTest');
+const blockchainRouter = require('./routes/blockchain');
 
 
 configPassport(app, passport);
@@ -81,6 +82,7 @@ passportRouter(app, passport);
 profileRouter(app, upload);
 networkRouter(app);
 reportTestRouter(app);
+blockchainRouter(app);
 
 mainRouter(app);
 

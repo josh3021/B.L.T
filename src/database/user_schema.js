@@ -40,6 +40,11 @@ Schema.createSchema = mongoose => {
             required: true,
             'default': false
         },
+        point: {
+            type: Number,
+            required: true,
+            'default': 0
+        },
         created_at: {
             type: Date,
             unique: false,
