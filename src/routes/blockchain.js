@@ -9,6 +9,7 @@ module.exports = app => {
         let receiver = req.body.receiver;
 
         let victim = req.session.username;
+	console.log('receiver: '+receiver+', victim: '+victim);
         const database = req.app.get('database');
         database.UserModel.findOne({
             'username': receiver
@@ -17,6 +18,9 @@ module.exports = app => {
 
             let vrmsCoin = new Blockchain();
             
+	    if(receiver === victim)
+		return res.redirect('/profile');
+
             if(!vrmsCoin.isChainValid())
                 return res.redirect('/profile');
 
@@ -29,7 +33,7 @@ module.exports = app => {
 
                 console.log('block saved!: '+JSON.stringify(vrmsCoin, null, 4));
             })
-            
+ 	    res.redirect('/profile');           
         });
     });
 }
