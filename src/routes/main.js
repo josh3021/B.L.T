@@ -1,6 +1,6 @@
 module.exports = app => {
-    var request = require('request');
-    var xml2js = require('xml2js');
+    const request = require('request');
+    const xml2js = require('xml2js');
     const sseExpress = require('sse-express');
     var parser = new xml2js.Parser({
         explicitArray: false

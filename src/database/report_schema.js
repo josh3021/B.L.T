@@ -1,7 +1,7 @@
-var Schema = {};
+let Schema = {};
 
 Schema.createSchema = mongoose => {
-    var ReportSchema = mongoose.Schema({
+    let ReportSchema = mongoose.Schema({
         telephone: {
             type: String,
             required: true,

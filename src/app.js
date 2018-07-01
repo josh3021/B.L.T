@@ -8,38 +8,24 @@ const ejs = require('ejs');
 const passport = require('passport');
 const flash = require('connect-flash');
 const engine = require('ejs-locals');
-var multer = require('multer');
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './src/public/uploads/'); // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
-    },
-    filename: function (req, file, cb) {
-        var date = new Date();
-        cb(null, req.session.username+path.extname(file.originalname)); // cb 콜백함수를 통해 전송된 파일 이름 설정
-    }
-});
-var upload = multer({ storage: storage });
 
 const app = express();
-const router = express.Router();
 const config = require('./config');
 
 const http = require('http').Server(app);
 //const createServer = require('auto-sni');
 
 /*var server = createServer({
-  email: 'joseonghwan3021@gmail.com', // Emailed when certificates expire.
-  agreeTos: true, // Required for letsencrypt.
-  debug: true, // Add console messages and uses staging LetsEncrypt server. (Disable in production)
-  domains: "vrms.tech", // List of accepted domain names. (You can use nested arrays to register bundles with LE).
-  dir: "~/letsencrypt/etc", // Directory for storing certificates. Defaults to "~/letsencrypt/etc" if not present.
-  ports: {
-    http: 80, // Optionally override the default http port.
-    https: 443 // // Optionally override the default https port.
-  }
+    email: 'joseonghwan3021@gmail.com', // Emailed when certificates expire.
+    agreeTos: true, // Required for letsencrypt.
+    debug: true, // Add console messages and uses staging LetsEncrypt server. (Disable in production)
+    domains: "vrms.tech", // List of accepted domain names. (You can use nested arrays to register bundles with LE).
+    dir: "~/letsencrypt/etc", // Directory for storing certificates. Defaults to "~/letsencrypt/etc" if not present.
+    ports: {
+        http: 80, // Optionally override the default http port.
+        https: 443 // // Optionally override the default https port.
+    }
 }, app);*/
-
-const os = require('os');
 
 app.engine('ejs', engine);
 app.set('views', path.join(__dirname, '/views'));
@@ -79,7 +65,7 @@ const blockchainRouter = require('./routes/blockchain');
 configPassport(app, passport);
 indexRouter(app);
 passportRouter(app, passport);
-profileRouter(app, upload);
+profileRouter(app);
 networkRouter(app);
 reportTestRouter(app);
 blockchainRouter(app);

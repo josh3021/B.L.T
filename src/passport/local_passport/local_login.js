@@ -1,4 +1,4 @@
-var LocalStrategy = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 
 module.exports = new LocalStrategy({
     usernameField: 'username',
@@ -9,7 +9,7 @@ module.exports = new LocalStrategy({
 
     console.log('username: %s, password: %s', username, password);
 
-    var database = req.app.get('database');
+    const database = req.app.get('database');
     database.UserModel.findOne({
         'username': username
     }, function(err, user){

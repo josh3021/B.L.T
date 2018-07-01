@@ -56,42 +56,42 @@
             <p>copyright</p>
         </footer>
         <script>
-            var mapposition = getLocation();
+            let mapposition = getLocation();
 
-            var mapOptions = {
+            let mapOptions = {
                 center: mapposition,
                 zoom: 10,
                 zoomControl: true
             };
 
-            var map = new naver.maps.Map('map', mapOptions);
+            let map = new naver.maps.Map('map', mapOptions);
 
-            var marker = new naver.maps.Marker({
+            let marker = new naver.maps.Marker({
                 map: map,
                 position: null
             });
 
-            var infoWindow = new naver.maps.InfoWindow({
+            let infoWindow = new naver.maps.InfoWindow({
                 anchorSkew: true
             })
 
-            var markers = [];
-            var infoWindows = [];
-            var itemsArr = [];
+            let markers = [];
+            let infoWindows = [];
+            let itemsArr = [];
 
-            var eventSource = new EventSource('http://localhost:8080/updates');
+            let eventSource = new EventSource('http://localhost:8080/updates');
 
             eventSource.addEventListener('connected', (e) => {
                 console.log(e.data);
                 console.log(JSON.parse(e.data));
-                var str = JSON.parse(e.data);
+                let str = JSON.parse(e.data);
                 document.getElementById('test').innerHTML += '<p>'+str.x+'</p>'+'<p>'+str.y+'</p>'+'<p>'+str.date+'</p>';
-                var position = new Array();
-                for(var key in str.x) {
+                let position = new Array();
+                for(let key in str.x) {
                     position.push(new naver.maps.LatLng(str.x[key], str.y[key]));
 
                     console.log('position: '+position);
-                    var marker = new naver.maps.Marker({
+                    let marker = new naver.maps.Marker({
                         map: map,
                         position: position[key],
                         icon: './img/Report_Marker.png',
@@ -116,11 +116,11 @@
                             if (status !== naver.maps.Service.Status.OK) {
                                 return alert('Something wrong!');
                             }
-                            var result = response.result, // 검색 결과의 컨테이너
+                            let result = response.result, // 검색 결과의 컨테이너
                                 items = result.items; // 검색 결과의 배열
-                            var itemA = items[0].address;
+                            let itemA = items[0].address;
                             console.log('itemA: '+itemA);
-                            var infoWindow = new naver.maps.InfoWindow({
+                            let infoWindow = new naver.maps.InfoWindow({
                                 content: '<div style="width:150px;text-align:center;padding:10px;">신고발생!<br> 주소: '+ itemA +'</div>'
                             });
                             infoWindows.push(infoWindow);
@@ -131,7 +131,7 @@
 
                     console.log(markers.length);
 
-                    for (var i=0, ii=markers.length; i<ii; i++) {
+                    for (let i=0, ii=markers.length; i<ii; i++) {
                         console.log('markers:'+markers[i].position);
                         naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
                     }
@@ -140,7 +140,7 @@
 
             function getClickHandler(seq) {
                 return function(e) {
-                    var marker = markers[seq],
+                    let marker = markers[seq],
                         infoWindow = infoWindows[seq];
 
                     infoWindow.getMap() === null;
@@ -193,11 +193,11 @@
                             //$('#addressList').append('<li></li>', data.titles[i]);
                             //$('#addressList').append('<li></li>', data.telephones[i]); 
                             //$('#addressList').append('<li></li>', data.roadAddresss[i]);
-                            var addressList = $('<div>', {click: function(e){
+                            let addressList = $('<div>', {click: function(e){
                                 e.preventDefault();
                                 console.log(data.mapxs[i], data.mapys[i]);
                                 console.log(naver.maps.Point(data.mapxs[i], data.mapys[i]));
-                                var newPosition = naver.maps.TransCoord.fromTM128ToLatLng(new naver.maps.Point(data.mapxs[i], data.mapys[i]));
+                                let newPosition = naver.maps.TransCoord.fromTM128ToLatLng(new naver.maps.Point(data.mapxs[i], data.mapys[i]));
                                 console.log(newPosition);
                                 map.setCenter(newPosition);
                                 marker.setPosition(newPosition);

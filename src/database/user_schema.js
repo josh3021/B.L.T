@@ -1,9 +1,9 @@
 const crypto = require('crypto');
 
-var Schema = {};
+let Schema = {};
 
 Schema.createSchema = mongoose => {
-    var UserSchema = mongoose.Schema({
+    let UserSchema = mongoose.Schema({
         username: {
             type: String,
             required: true,

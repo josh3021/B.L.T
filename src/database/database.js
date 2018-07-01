@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('../config');
 
-var database = {};
+let database = {};
 
 database.init = app => {
     console.log('database.init 호출됨');
@@ -10,7 +10,7 @@ database.init = app => {
 
 function connectDB(app){
     console.log('database.connect 호출됨');
-    var databaseUrl = config.db_url;
+    const databaseUrl = config.db_url;
 
     mongoose.connect(databaseUrl);
     mongoose.Promise = global.Promise;
@@ -25,12 +25,12 @@ function connectDB(app){
 
 function createSchema(app, config) {
     app.set('database', database);
-    var schemaLen = config.db_schemas.length;
+    let schemaLen = config.db_schemas.length;
     for(let i=0; i<schemaLen; ++i){
-        var curItem = config.db_schemas[i];
+        let curItem = config.db_schemas[i];
 
-        var curSchema = require(curItem.file).createSchema(mongoose);
-        var curModel = mongoose.model(curItem.collection, curSchema);
+        let curSchema = require(curItem.file).createSchema(mongoose);
+        let curModel = mongoose.model(curItem.collection, curSchema);
 
         console.log('curSchema: %s, curModel: %s', curItem.file, curItem.collection);
 

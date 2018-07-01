@@ -1,5 +1,5 @@
 module.exports = {
-    server_port: 80,
+    server_port: 8080,
     db_url: 'mongodb://localhost:27017/users',
     db_schemas: [
         {
@@ -14,7 +14,5 @@ module.exports = {
             schemaName: 'ReportSchema',
             modelName: 'ReportModel'
         }
-    ],
-    route_info: [
     ]
 };

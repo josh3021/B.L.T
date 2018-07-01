@@ -7,16 +7,16 @@ module.exports = (app) => {
     
     app.post('/crt', (req, res) => {
         console.log('post crt!')
-        var telephone = req.body.telephone;
-        var x = req.body.x;
-        var y = req.body.y;
-        var num = req.body.num;
+        let telephone = req.body.telephone;
+        let x = req.body.x;
+        let y = req.body.y;
+        let num = req.body.num;
 
-        var database = req.app.get('database');
+        const database = req.app.get('database');
 
         console.log('telephone: '+telephone+', x: '+x+', y: '+y+', num: '+num);
 
-        var reportuser = new database.ReportModel({
+        let reportuser = new database.ReportModel({
             'telephone': telephone,
             'position.x': x,
             'position.y': y,

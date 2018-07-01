@@ -1,5 +1,4 @@
-var LocalStrategy = require('passport-local').Strategy;
-var nodemailer = require('nodemailer');
+const LocalStrategy = require('passport-local').Strategy;
 
 module.exports = new LocalStrategy({
     usernameField: 'username',
@@ -8,13 +7,13 @@ module.exports = new LocalStrategy({
 }, (req, username, password, done) => {
     console.log('config/passport/local-signup 호출됨');
 
-    var paramEmail = req.body.email;
+    let paramEmail = req.body.email;
 
     console.log('username: %s, password: %s, email: %s', username, password, paramEmail);
 
     
     process.nextTick(() => {
-        var database = req.app.get('database');
+        const database = req.app.get('database');
 
         database.UserModel.findOne({
             'username': 'username'

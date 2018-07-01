@@ -1,6 +1,4 @@
-const fs = require('fs');
-
-module.exports = (app, upload) => {
+module.exports = (app) => {
     
     app.get('/profile', (req, res) => {
         if(!req.session.username)
@@ -18,15 +16,15 @@ module.exports = (app, upload) => {
 			    danger = true;
 			
 	    });
-        var username = req.session.username;
+        let username = req.session.username;
         res.render('profile.ejs', {username:username, danger: danger});
     });
 
     app.post('/profile/addDevice', (req, res) => {
-        var deviceNum = req.body.deviceNum;
+        let deviceNum = req.body.deviceNum;
 
         process.nextTick(() => {
-            var database = req.app.get('database');
+            const database = req.app.get('database');
 
             console.log(req.session.username);
 
@@ -51,13 +49,13 @@ module.exports = (app, upload) => {
     });
 
     app.post('/profile/updatePassword', (req, res) => {
-        var database = req.app.get('database');
+        const database = req.app.get('database');
 
-        var newPassword = req.body.newPassword;
-        var confirmPassword = req.body.confirmPassword;
+        let newPassword = req.body.newPassword;
+        let confirmPassword = req.body.confirmPassword;
 
         console.log('new: '+newPassword+', confirm: '+confirmPassword);
-        var userInfo = req.user;
+        let userInfo = req.user;
         database.UserModel.findOne({
             'username': userInfo.username
         }, (err, user) => {
@@ -69,7 +67,7 @@ module.exports = (app, upload) => {
             }
 
             else {
-                var encrypt = user.encryptPassword(newPassword, user._doc.salt);
+                let encrypt = user.encryptPassword(newPassword, user._doc.salt);
                 user.hashed_password = encrypt;
                 user.save(err => {
                     if(err) throw err;
