@@ -12,15 +12,23 @@ const engine = require('ejs-locals');
 const app = express();
 const config = require('./config');
 
-const http = require('http').Server(app);
-//const createServer = require('auto-sni');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
 
-/*var server = createServer({
+let options = {
+	key: fs.readFileSync('./cert/key.pem'),
+	cert: fs.readFileSync('./cert/cert.pem')
+}
+
+/*const createServer = require('auto-sni');
+
+var server = createServer({
     email: 'joseonghwan3021@gmail.com', // Emailed when certificates expire.
     agreeTos: true, // Required for letsencrypt.
     debug: true, // Add console messages and uses staging LetsEncrypt server. (Disable in production)
-    domains: "vrms.tech", // List of accepted domain names. (You can use nested arrays to register bundles with LE).
-    dir: "~/letsencrypt/etc", // Directory for storing certificates. Defaults to "~/letsencrypt/etc" if not present.
+    domains: ["vrms.tech"], // List of accepted domain names. (You can use nested arrays to register bundles with LE).
+    dir: "~/certbot/etc", // Directory for storing certificates. Defaults to "~/letsencrypt/etc" if not present.
     ports: {
         http: 80, // Optionally override the default http port.
         https: 443 // // Optionally override the default https port.
@@ -82,9 +90,16 @@ const errorHandler = expressErrorHandler({
 app.use(expressErrorHandler.httpError(404));
 app.use(errorHandler);
 
-http.listen(config.server_port, () => {
-    console.log('listening on %s port', config.server_port);
+http.createServer(app).listen(config.server_http, function(){  
+  console.log("Http server listening on port " + config.server_http);
 });
+
+https.createServer(options, app).listen(config.server_https, function(){  
+  console.log("Https server listening on port " + config.server_https);
+});
+/*http.listen(config.server_http, () => {
+    console.log('listening on %s port', config.server_port);
+});*/
 
 /*server.once("listening", () => {
 	console.log("we are ready to go");

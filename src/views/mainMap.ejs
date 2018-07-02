@@ -7,91 +7,104 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
         <meta http-equiv="content-script-type" content="text/javascript"> 
         <link type="text/css" rel="stylesheet" href= '/css/mainMap.css'>
+        <link type="text/css" rel="stylesheet" href= '/css/w3.css'>
         <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=EzUf5_07z65lc8sKq2px&submodules=geocoder"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     </head>
-    <body class="body">
-        <header>
-            <div>Logo</div>
-            <div class="menubar">
-                <ul>
-                    <li><a href="#" id="current">유저</a>
-                        <ul>
-                            <li><a href="/profile?username=<%= username %>">프로필</a></li>
-                            <li><a href="/logout">로그아웃</a></li>
-                            <li><a href="/statics">통계</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div id="test"></div>
-        </header>
+    <body class="body" style="background-color:rgb(94, 94, 94)">
+        <header id="header-1" style="padding: 10px" class="soft-scroll header-1">
+                <nav class="main-nav navbar-fixed-top" style="background-image:url('img/background_color.png');">
+                    <div class="navbar-header">
+                        <a href="/" class="w3-right">
+                                  <img src="img/textlogo_white.png" height="50" class="img-responsive w3-animate-left">
+                              </a>
+                              <div class="menubar w3-left" style="margin-right: 10%;" >
+                                    <ul>
+                                        <li><a href="#" id="current">유저</a>
+                                            <ul>
+                                                <li><a href="/profile?username=<%= username %>">프로필</a></li>
+                                                <li><a href="/logout">로그아웃</a></li>
+                                                <li><a href="/statics">통계</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                    </div>
 
-        <section class="main">
+                </nav>
+            </header>
 
-            <nav class="main_nav">
-                <div>
-                        <input type="string" name="address" id="address" />
-                        <input type="button" value="지역검색" id="searchAjax" />
+        <section class="main" style="width:100%;height:700px!important;">
+            <main class="main_main">
+                <div id="map" style="width:100%;height:700px!important;"></div>
+            </main>
+        </section>
+        
+        <section class="w3-double" style="padding: 20px 40px;">
+                <div class="finduser" style="margin: 5px;" >
+                        <input type="string" name="report" id="report" style="border: 0;margin: 0;height: 38px;border-radius: 5px;" />
+                        <input type="button" class="w3-button w3-grey" value="유저 검색" name="finduserbtn" style="border-radius: 5px;" />
+                    </div>
+                    
+                <div style="margin: 5px;">
+                        <input type="string" name="address" id="address" style="border: 0;margin: 0;height: 38px;border-radius: 5px;" />
+                        <input type="button"  class="w3-button w3-grey" value="지역 검색" id="searchAjax" style="border-radius: 5px;" />
                 </div>
                 <div>
                     <p class="addressResult"></p>
-                    <ul id="addressList">
+                    <ul id="addressList" style="color:white;padding: 5px;border: 2px solid white; width:250px;">
 
                     </ul>
                 </div>
-            </nav>
+                
+           <br>
 
-            <main class="main_main">
-                <div class="finduser">
-                    <input type="string" name="report" id="report" />
-                    <input type="button" value="유저 검색" name="finduserbtn" />
-                </div>
-                <div id="map" style="width:100%;height:700px;"></div>
-            </main>
 
         </section>
+      
 
-        <footer>
-            <p>copyright</p>
-        </footer>
+
+
+
+
+
         <script>
-            let mapposition = getLocation();
+            var mapposition = getLocation();
 
-            let mapOptions = {
+            var mapOptions = {
                 center: mapposition,
                 zoom: 10,
                 zoomControl: true
             };
 
-            let map = new naver.maps.Map('map', mapOptions);
+            var map = new naver.maps.Map('map', mapOptions);
 
-            let marker = new naver.maps.Marker({
+            var marker = new naver.maps.Marker({
                 map: map,
                 position: null
             });
 
-            let infoWindow = new naver.maps.InfoWindow({
+            var infoWindow = new naver.maps.InfoWindow({
                 anchorSkew: true
             })
 
-            let markers = [];
-            let infoWindows = [];
-            let itemsArr = [];
+            var markers = [];
+            var infoWindows = [];
+            var itemsArr = [];
 
-            let eventSource = new EventSource('http://localhost:8080/updates');
+            var eventSource = new EventSource('http://localhost:8080/updates');
 
             eventSource.addEventListener('connected', (e) => {
                 console.log(e.data);
                 console.log(JSON.parse(e.data));
-                let str = JSON.parse(e.data);
+                var str = JSON.parse(e.data);
                 document.getElementById('test').innerHTML += '<p>'+str.x+'</p>'+'<p>'+str.y+'</p>'+'<p>'+str.date+'</p>';
-                let position = new Array();
-                for(let key in str.x) {
+                var position = new Array();
+                for(var key in str.x) {
                     position.push(new naver.maps.LatLng(str.x[key], str.y[key]));
 
                     console.log('position: '+position);
-                    let marker = new naver.maps.Marker({
+                    var marker = new naver.maps.Marker({
                         map: map,
                         position: position[key],
                         icon: './img/Report_Marker.png',
@@ -116,11 +129,11 @@
                             if (status !== naver.maps.Service.Status.OK) {
                                 return alert('Something wrong!');
                             }
-                            let result = response.result, // 검색 결과의 컨테이너
+                            var result = response.result, // 검색 결과의 컨테이너
                                 items = result.items; // 검색 결과의 배열
-                            let itemA = items[0].address;
+                            var itemA = items[0].address;
                             console.log('itemA: '+itemA);
-                            let infoWindow = new naver.maps.InfoWindow({
+                            var infoWindow = new naver.maps.InfoWindow({
                                 content: '<div style="width:150px;text-align:center;padding:10px;">신고발생!<br> 주소: '+ itemA +'</div>'
                             });
                             infoWindows.push(infoWindow);
@@ -131,7 +144,7 @@
 
                     console.log(markers.length);
 
-                    for (let i=0, ii=markers.length; i<ii; i++) {
+                    for (var i=0, ii=markers.length; i<ii; i++) {
                         console.log('markers:'+markers[i].position);
                         naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
                     }
@@ -140,7 +153,7 @@
 
             function getClickHandler(seq) {
                 return function(e) {
-                    let marker = markers[seq],
+                    var marker = markers[seq],
                         infoWindow = infoWindows[seq];
 
                     infoWindow.getMap() === null;
@@ -193,11 +206,11 @@
                             //$('#addressList').append('<li></li>', data.titles[i]);
                             //$('#addressList').append('<li></li>', data.telephones[i]); 
                             //$('#addressList').append('<li></li>', data.roadAddresss[i]);
-                            let addressList = $('<div>', {click: function(e){
+                            var addressList = $('<div>', {click: function(e){
                                 e.preventDefault();
                                 console.log(data.mapxs[i], data.mapys[i]);
                                 console.log(naver.maps.Point(data.mapxs[i], data.mapys[i]));
-                                let newPosition = naver.maps.TransCoord.fromTM128ToLatLng(new naver.maps.Point(data.mapxs[i], data.mapys[i]));
+                                var newPosition = naver.maps.TransCoord.fromTM128ToLatLng(new naver.maps.Point(data.mapxs[i], data.mapys[i]));
                                 console.log(newPosition);
                                 map.setCenter(newPosition);
                                 marker.setPosition(newPosition);
@@ -229,3 +242,4 @@
         </script>
     </body>
 </html>
+

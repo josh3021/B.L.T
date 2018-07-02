@@ -4,20 +4,24 @@ module.exports = (app) => {
         if(!req.session.username)
             return res.redirect('/login');
         let database = req.app.get('database');
-	    let danger = false;
-	    database.UserModel.findOne({
-		    'username': req.session.username
-	    }, (err, user) => {
-		    if(err)
+	let danger = false;
+	var point = 0;
+	database.UserModel.findOne({
+	    'username': req.session.username
+	}, (err, user) => {
+		if(err)
 			    throw err;
 		
 		    console.log('user: '+user);
 		    if(user.danger === true) 
 			    danger = true;
+
+			point = user.point;
 			
 	    });
         let username = req.session.username;
-        res.render('profile.ejs', {username:username, danger: danger});
+	console.log('user point: '+point);
+        res.render('profile.ejs', {username:username, danger: danger, point: point});
     });
 
     app.post('/profile/addDevice', (req, res) => {

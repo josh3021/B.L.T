@@ -1,46 +1,55 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
-        <title>Login Of ChatExample</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>V.R.M.S</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="./css/w3.css">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     </head>
-    <body>
-        <h4>
-            <button onclick="document.getElementById('add').style.display='block'" style="width: auto; margin: 0; padding: 0 10.735px 0 10.735px">Add Device</button>
-            <span>
-                <% if(username) { %>
-                    <%= username %>
-                <% } %>
-            </span>
-            <div class="add">
-                <div class="addForm">
-                    <form id="addDevice" action="/profile/addDevice" method="POST">
-                        <label>기기번호</label>
-                        <input type="text" name="deviceNum">
-                        <input type="submit">
-                    </form>
+    <body style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/51/BlankAsia.png')">
+        <div class="bg w3-display-container w3-animate-opacity">
+            <img src="./img/textlogo.png" class="w3-jumbo w3-animate-top" style="height:40px; margin:20px;" alt="LOGO" oncontextmenu="return false">
+            <div class="w3-custom-box3 w3-text-white w3-center w3-display-middle">
+    
+                <div id="Loginpage" class="w3-center">
+                    <h2 class="w3-center" style="font-weight: bold;"><% if(username) { %><%= username %><% } %></h2>
+                    
+                    <br>
+                   
+                                <form id="addDevice" action="/profile/addDevice" method="POST">
+                                    <input type="text" name="deviceNum" style="border-bottom: 2px #f1f1f1 solid;margin: 0 20px 0 0;font-size: 16px;color:white;
+                                    font-family: Nanum Gothic, sans-serif!important;" placeholder="기기번호">
+                                    <input type="submit" style="padding: 7px" class="w3-button w3-border" value="확인">
+                                </form>
+    
+                    <br>
+                            <form id="updatePassword" action="/profile/updatePassword" method="POST">
+                                <div class="updateaForm">
+                                        <input type="text" name="newPassword" style="border-bottom: 2px #f1f1f1 solid;margin: 0 68px 0 0px;font-size: 14px;color:white;
+                                        font-family: Nanum Gothic, sans-serif!important;" placeholder="새로운 비밀번호"><br><br>
+                                        <input type="text" name="confirmPassword" style="border-bottom: 2px #f1f1f1 solid;margin: 0 5px 0 0px;font-size: 14px;color:white;
+                                        font-family: Nanum Gothic, sans-serif!important;" placeholder="비밀번호 확인">
+                                    <input class="w3-button w3-border" style="padding: 7px" type="submit"  value="바꾸기">
+                                </div>
+                            </form>
+    
+                    <br>
+                    <br><br>
+                    <a href="/adminAuth" class="w3-button w3-border w3-border-white" style="width:250px;" id="register">관리자 인증 받기</a>
+    <Br>
                 </div>
+    
             </div>
-            <div class="add">
-                <form id="updatePassword" action="/profile/updatePassword" method="POST">
-                    <div class="updateaForm">
-                        <label>새로운 비밀번호</label>
-                        <input type="text" name="newPassword">
-                        <label>비밀번호 확인</label>
-                        <input type="text" name="confirmPassword">
-                        <input type="submit">
-                    </div>
-                </form>
-            </div>
-            <div class="admin">
-                <span><a href="/adminAuth">관리자 인증 받기</a></span>
-            </div>
+        </div>
+
 	    <% if (danger === true) { %>
-		<div class="isDanger">
-			<form action="/profile/safe" method="post">
-				<input type="submit" value="안전" />
-			</form>
-		</div>
+		    <div class="isDanger">
+			    <form action="/profile/safe" method="post">
+				    <input type="submit" value="안전" />
+			    </form>
+		    </div>
         <% } %>
         <div class="thx">
             <a href="/getpoint">getpoint</a>
@@ -49,3 +58,5 @@
         </script>
     </body>
 </html>
+
+
