@@ -2,57 +2,23 @@ module.exports = (app) => {
     
     app.get('/profile', (req, res) => {
         if(!req.session.username)
-            return res.redirect('/login');
+            return res.redirect('/');
         let database = req.app.get('database');
-	let danger = false;
-	var point = 0;
-	database.UserModel.findOne({
-	    'username': req.session.username
-	}, (err, user) => {
-		if(err)
+	    database.UserModel.findOne({
+	        'username': req.session.username
+	    }, (err, user) => {
+		    if(err)
 			    throw err;
 		
 		    console.log('user: '+user);
-		    if(user.danger === true) 
-			    danger = true;
-
-			point = user.point;
 			
+            res.render('profile.ejs', {username:user.username, danger: user.danger, point: user.point, email: user.email, device: user.device});
 	    });
-        let username = req.session.username;
-	console.log('user point: '+point);
-        res.render('profile.ejs', {username:username, danger: danger, point: point});
-    });
-
-    app.post('/profile/addDevice', (req, res) => {
-        let deviceNum = req.body.deviceNum;
-
-        process.nextTick(() => {
-            const database = req.app.get('database');
-
-            console.log(req.session.username);
-
-            database.UserModel.findOne({
-                'username': req.session.username
-            }, (err, user) => {
-                if(err) 
-                    return console.log(err);
-    
-                else {
-                    user.device = deviceNum;
-                }
-
-                user.save(function(err){
-                    if(err) res.status(500).json({error: 'failed to update'});
-                    console.log('updated successfully')
-                });
-        
-            });
-            res.redirect('/profile');
-        });
     });
 
     app.post('/profile/updatePassword', (req, res) => {
+        if(!req.session.username)
+            return res.redirect('/');
         const database = req.app.get('database');
 
         let newPassword = req.body.newPassword;
@@ -81,4 +47,22 @@ module.exports = (app) => {
             return res.redirect('/');
         });
     });
+    app.get('/profile/safe', (req, res) => {
+        let database = req.app.get('database');
+        database.UserModel.findOne({
+            'username': req.session.username
+        }, (err, user) => {
+            if(err) throw err;
+            if(user.username !== req.session.username)
+                res.redirect('/')
+            user.danger = false;
+            user.save(err => {
+                if(err) throw err;
+                console.log('안전합니다!');
+            });
+        res.redirect('/profile');
+    });
+    });
 }
+
+

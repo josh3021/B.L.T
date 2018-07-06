@@ -10,7 +10,7 @@ module.exports = app => {
 
     app.get('/main', (req, res) => {
         if(!req.session.username) {
-            return res.redirect('/login');
+            return res.redirect('/');
         }
         res.render('mainMap', {username: req.user.username});
     });
@@ -79,5 +79,11 @@ module.exports = app => {
             }
         });
     });
+
+    app.post('/settingbounds', (req, res) => {
+        console.log(req.body.point);
+        req.session.point = req.body.point;
+        res.send({point: point})
+    })
 
 }

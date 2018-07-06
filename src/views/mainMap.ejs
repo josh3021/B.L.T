@@ -8,45 +8,47 @@
         <meta http-equiv="content-script-type" content="text/javascript"> 
         <link type="text/css" rel="stylesheet" href= '/css/mainMap.css'>
         <link type="text/css" rel="stylesheet" href= '/css/w3.css'>
-        <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=EzUf5_07z65lc8sKq2px&submodules=geocoder"></script>
+        <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=EzUf5_07z65lc8sKq2px&submodules=geocoder,drawing"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     </head>
     <body class="body" style="background-color:rgb(94, 94, 94)">
-        <header id="header-1" style="padding: 10px" class="soft-scroll header-1">
-                <nav class="main-nav navbar-fixed-top" style="background-image:url('img/background_color.png');">
-                    <div class="navbar-header">
-                        <a href="/" class="w3-right">
-                                  <img src="img/textlogo_white.png" height="50" class="img-responsive w3-animate-left">
-                              </a>
-                              <div class="menubar w3-left" style="margin-right: 10%;" >
-                                    <ul>
-                                        <li><a href="#" id="current">유저</a>
-                                            <ul>
-                                                <li><a href="/profile?username=<%= username %>">프로필</a></li>
-                                                <li><a href="/logout">로그아웃</a></li>
-                                                <li><a href="/statics">통계</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                    </div>
+        <header id="header-1" style="padding: 10px 0 0 0; height: 60px;" class="soft-scroll header-1">
+            <div class="navbar-header" style="height: inherit">
+                <div class="menubar w3-left" >
+                    <a href="/" class="w3-right">
+                        <img src="img/textlogo_white.png" height="50" class="img-responsive w3-animate-left">
+                    </a>
+                </div>
+                <div class="menubar w3-right" >
+                    <ul style="width: inherit; margin: 0px 10px 0 0; ">
+                        <li style="width: inherit; padding: 0, 0, 10px, 0"><a href="#" id="current" style="width: inherit">유저</a>
+                            <ul style="margin: inherit">
+                                <li><a href="/profile?username=<%= username %>">프로필</a></li>
+                                <li><a href="/logout">로그아웃</a></li>
+                                <li><a href="/statics">통계</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
 
-                </nav>
-            </header>
+                </div>
+            </div>
+
+        </header>
 
         <section class="main" style="width:100%;height:700px!important;">
             <main class="main_main">
-                <div id="map" style="width:100%;height:700px!important;"></div>
+                <div id="map" style="width:100%;height:700px!important;">
+                </div>
             </main>
         </section>
         
         <section class="w3-double" style="padding: 20px 40px;">
-                <div class="finduser" style="margin: 5px;" >
-                        <input type="string" name="report" id="report" style="border: 0;margin: 0;height: 38px;border-radius: 5px;" />
-                        <input type="button" class="w3-button w3-grey" value="유저 검색" name="finduserbtn" style="border-radius: 5px;" />
-                    </div>
+
+                <div id="my-id">hello</div>
+                <div id="logger"></div>
                     
-                <div style="margin: 5px;">
+                <div id="searchAdd" style="margin: 5px;">
                         <input type="string" name="address" id="address" style="border: 0;margin: 0;height: 38px;border-radius: 5px;" />
                         <input type="button"  class="w3-button w3-grey" value="지역 검색" id="searchAjax" style="border-radius: 5px;" />
                 </div>
@@ -56,12 +58,13 @@
 
                     </ul>
                 </div>
-                
-           <br>
+            <br>
 
 
         </section>
-      
+        <a style="display:scroll;position:fixed;bottom:55px;right:3px;color:black;text-decoration:none; border:2px solid black; border-radius:4px; font-size:1.7em;" rel="nofollow" href="#header-1" title="Go to Top!">▲</a>
+        <a style="display:scroll;position:fixed;bottom:10px;right:3px;color:black;text-decoration:none; border:2px solid black; border-radius:4px; font-size:1.7em;" rel="nofollow" href="#searchAdd" title="Go to Bottom!">▼</a>
+
 
 
 
@@ -74,15 +77,17 @@
             var mapOptions = {
                 center: mapposition,
                 zoom: 10,
-                zoomControl: true
+                zoomControl: true,
+                zoomControlOptions: {
+                    style: naver.maps.ZoomControlStyle.LARGE,
+                    position: naver.maps.Position.TOP_RIGHT
+                },
+                mapTypeControl: true,
             };
 
             var map = new naver.maps.Map('map', mapOptions);
 
-            var marker = new naver.maps.Marker({
-                map: map,
-                position: null
-            });
+            
 
             var infoWindow = new naver.maps.InfoWindow({
                 anchorSkew: true
@@ -98,7 +103,6 @@
                 console.log(e.data);
                 console.log(JSON.parse(e.data));
                 var str = JSON.parse(e.data);
-                document.getElementById('test').innerHTML += '<p>'+str.x+'</p>'+'<p>'+str.y+'</p>'+'<p>'+str.date+'</p>';
                 var position = new Array();
                 for(var key in str.x) {
                     position.push(new naver.maps.LatLng(str.x[key], str.y[key]));
@@ -213,7 +217,29 @@
                                 var newPosition = naver.maps.TransCoord.fromTM128ToLatLng(new naver.maps.Point(data.mapxs[i], data.mapys[i]));
                                 console.log(newPosition);
                                 map.setCenter(newPosition);
-                                marker.setPosition(newPosition);
+                                var marker = new naver.maps.Marker({
+                                    map: map,
+                                    position: newPosition
+                                });
+
+                                var contentString = [
+                                    '<div class="iw_inner">',
+                                    '   <h2>'+data.titles[i]+'</h2>',
+                                    '   <input type="button" onclick="location.href=\'http://locahost:8080/alarm?x='+data.mapxs[i]+'&y='+data.mapys[i]+'\'" value="위치 설정하기" />',
+                                    '   <input type="button" id="restore" />',
+                                    '</div>'
+                                ].join('');
+                                var infoWindow = new naver.maps.InfoWindow({
+                                    content: contentString
+                                });
+
+                                naver.maps.Event.addListener(marker, "click", function(e) {
+                                    if (infoWindow.getMap()) {
+                                        infoWindow.close();
+                                    } else {
+                                        infoWindow.open(map, marker);
+                                    }
+                                });
                             }
                             }).text(data.titles[i]+', '+data.telephones[i]+', '+data.roadAddresss[i]+', '+data.mapxs[i]+', '+data.mapys[i]);
                             $('#addressList').append(addressList);
@@ -228,6 +254,17 @@
                         }
                     },'json');
                 });
+
+                $('#settingAjax').click(function() {
+                    var settingArray = $('#settingInput').val();
+                    console.log('anyone?')
+                    console.log('settingArray: '+settingArray);
+                    $.post('/settingbounds', {point: settingArray}, function(data) {
+                        console.log('point Ajax success: '+data);
+                    })
+                })
+
+                
             });
             //var document.getElementById('addressList').getElementsByTagName('li').addEventListener("click", function(){
             //    var newPosition = naver.maps.TransCoord.fromTM128ToLatLng(data.mapxs[i], data.mapys[i]);
@@ -239,6 +276,112 @@
                 //    document.getElementById('test').innerHTML += '<p>'+result.data+'</p>';
                 //});
                 
+
+                var drawingManager = new naver.maps.drawing.DrawingManager({
+                    map: map,
+                    fillOpacity: 0.4,
+                    fillColor: '#ff0000',
+                    strokeWeight: 2,
+                    strokeColor: '#ff0000',
+                    clickable: true
+                });
+
+                var rect = new naver.maps.Rectangle({
+                    map: map,
+                    bounds: [126.96744,37.561622,126.9737437,37.5668781],
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.4,
+                    strokeWeight: 2,
+                    strokeColor: '#ff0000'
+                });
+            
+            
+                //drawingManager.addListener(naver.maps.drawing.DrawingEvent.rectAdded, function(overlay) {
+                //    console.log('draw')
+                //    console.log(overlay.id, overlay.name);
+                //}); 
+
+    // 오버레이 추가
+
+                var infoR;
+
+                var logger = $('#logger');
+                var OVERAY_NAMES = ['rectangle', 'ellipse', 'polyline', 'arrowline', 'polygon', 'marker'];
+                var EVENT_SUBFIXEX = ['Added', 'Selected', 'Removed'];
+                var GROUPED_EVENTS = [
+                    naver.maps.drawing.DrawingEvents.ADD,
+                    naver.maps.drawing.DrawingEvents.SELECT,
+                    naver.maps.drawing.DrawingEvents.REMOVE
+                ];
+        
+                $(OVERAY_NAMES).each(function(i, name) {
+                    $(EVENT_SUBFIXEX).each(function(i, subfix) {
+                        var eventName = name + subfix;
+                        
+                        drawingManager.addListener(eventName, function(overlay) {
+
+                            drawingManager.addDrawing(overlay, naver.maps.drawing.DrawingMode.RECTANGLE);
+                            infoR = overlay;
+                            var bound = overlay.bounds;
+                            console.log(overlay);
+                            logger.html(logger.html() + eventName + '<br>');
+                            showDrawInfo(bound);
+                            });
+                        });
+                    });
+
+                $(GROUPED_EVENTS).each(function(i, eventName){
+                    drawingManager.addListener(eventName, function(overlay) {
+                        logger.html(logger.html() + eventName + '<br>---------------------<br>');
+                        logger.scrollTop(logger.innerHeight());
+                    });
+                });
+
+
+                drawingManager.addDrawing(rect, naver.maps.drawing.DrawingMode.RECTANGLE, 'logger');
+
+            function showDrawInfo(bound) {
+                var center = new naver.maps.Point((bound._max.x + bound._min.x)/2, (bound._max.y + bound._min.y)/2);
+                console.log(center);
+
+                var settingArray = new Array();
+                settingArray.push(bound._max.x, bound._max.y, bound._min.x, bound._min.y);
+
+                var contentString = [
+                    '<div class="iw_inner">',
+                    '   <div><h6>이 반경에 아이펜스를 설정하시겠습니까?</h6>',
+                    '   <p id="ne_x" >'+settingArray[0]+'</p>',
+                    '   <p id="ne_y" >'+settingArray[1]+'</p>',
+                    '   <p id="sw_x" >'+settingArray[2]+'</p>',
+                    '   <p id="sw_y" >'+settingArray[3]+'</p>',
+                    '   <input type="button" id="settingAjax" onclick = "setBounds()" value="설정" />',
+                    '</div>'
+                ].join('');
+
+                var infoWindow = new naver.maps.InfoWindow({
+                    content: contentString
+                });
+
+                infoWindow.open(map, center);
+            }
+            
+            function setBounds() {
+
+                var ne_x = document.getElementById('ne_x').innerText;
+                var ne_y = document.getElementById('ne_y').innerText;
+                var sw_x = document.getElementById('sw_x').innerText;
+                var sw_y = document.getElementById('sw_y').innerText;
+
+                var xhr = new XMLHttpRequest();
+                
+                xhr.open('GET', '/fencedata?ne_x='+ne_x+'&ne_y='+ne_y+'&sw_x='+sw_x+'&sw_y='+sw_y);
+                xhr.send();
+
+                xhr.addEventListener('load', () => {
+                    console.log(xhr.message);
+                })
+            }
+
         </script>
     </body>
 </html>

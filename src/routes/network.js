@@ -1,8 +1,9 @@
 const nodemailer = require('nodemailer');
+const response = require('response');
 
 module.exports = (app) => {
 
-    app.get('/network', (req, res) => {
+    app.get('/report', (req, res) => {
         let x = req.query.x;
         let y = req.query.y;
         let telephone = req.query.telephone;
@@ -35,20 +36,6 @@ module.exports = (app) => {
         res.send('성공');
     });
     });
-
-    app.post('/profile/safe', (req, res) => {
-        let database = req.app.get('database');
-        database.ReportModel.findOne({
-            'username': req.session.username
-        }, (err, user) => {
-            user.danger = false;
-            user.save(err => {
-                if(err) throw err;
-                console.log('안전합니다!');
-            });
-        res.redirect('/profile');
-        });
-    });
     
     app.get('/statics/user', (req, res) => {
         const database = req.app.get('database');
@@ -68,7 +55,7 @@ module.exports = (app) => {
         });
     });
 
-    app.get('/emailAuthen', (req, res) => {
+    app.get('/emailAuth', (req, res) => {
         res.render('emailAuth.ejs', {
 	        message: req.flash('')
 	    });
@@ -128,6 +115,26 @@ module.exports = (app) => {
         }
     });
 
+    app.get('/render_to_firm', (req, res) => {
+        let paramUsername = req.query.username;
+        let paramPassword = req.query.password;
+
+        const database = req.app.get('database');
+        database.UserModel.findOne({
+            username: paramUsername
+        }, (err, user) => {
+            if(err) throw err;
+
+            let authenticated = user.authenticated(paramPassword, user._doc.salt, user._doc.hashed_password);
+
+            if(!authenticated) {
+                return res.send('fail');
+            }
+
+            res.send('ok, username: '+user._doc.username+', email: '+user._doc.email+', point: '+user._doc.point)
+        });
+    });
+
     function makeid() {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -137,4 +144,5 @@ module.exports = (app) => {
 
         return text;
     }
+
 };

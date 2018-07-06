@@ -3,13 +3,6 @@
 module.exports = (app, passport) => {
     console.log('user_passport 호출됨');
     
-    // login form
-    app.get('/login', (req, res) => {
-        console.log('/login 패스 요청됨');
-        res.render('login.ejs', {
-            message: req.flash('signinMessage')
-        });
-    });
 
     // login form
     app.post('/login', passport.authenticate('local-login', {

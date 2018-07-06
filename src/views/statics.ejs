@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>VRMS Statics</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./css/w3.css">
+        <link rel="stylesheet" href="./css/statics.css" />
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+    </head>
+    <body onload="displayDayChart();displayMonthChart();displayTimeChart();">
+        <div class="w3-container w3-teal" id="header" style="height: 10%">
+            this is header
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l3 w3-sand" id="report_list" style="overflow: auto; height: 90vh">
+            <% for(i=0; i<user.length; i++) { %>
+                <ul class="w3-ul" style="list-style: none; width: 100%;">
+                    <div class="w3-panel w3-aliceblue">
+                        <li>신고번호: <%= i+1 %></li>
+                        <% if(user[i].danger) { %>
+                            <li>위험!</li>
+                        <% } %>
+                        <% if(!user[i].danger) { %>
+                            <li>상황 종료됨</li>
+                        <% } %>
+                        <li><%= user[i].report_at %></li>
+                    </div>
+                </ul>
+            <% } %>
+
+            </div>
+                <div id="day" style="display:none">
+                <%= day %>
+                </div>
+                <div id="mon" style="display:none">
+                <%= mon %>
+                </div>
+                <div id="time" style="display:none">
+                <%= time %>
+                </div>
+                <div id="total" style="display:none">
+                <%= percent %>
+                </div>
+                <div id="solved" style="display: none">
+                <%= solved %>
+                </div>
+                <div id="notsolved" style="display: none">
+                <%= percent - solved %>
+                </div>
+            <div class="w3-col m4 l9" id="report_graph" style="float: right; width: 75%; height: 90%; margin: 0; overflow-y:hidden">
+                <h3>VRMS 그래프</h3>
+                <div class="w3-panel m4 l12" width= "100%">
+                    <canvas id="timeChart" style="width: 100%; height: 200px"></canvas>
+                </div>
+                <div  class="w3-panel m4 l12" width="100%">
+                    <canvas id="dayChart" style="width: 100%; height: 200px"></canvas>
+                </div>
+                <div  class="w3-panel m4 l12" width="100%">
+                    <canvas id="monthChart" style="width: 100%; height: 200px"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            function displayDayChart() {
+                var day = document.getElementById('day').innerHTML;
+                var dayData = JSON.parse("[" + day + "]");
+                var data = {
+                    labels: ['월', '화', '수', '목', '금', '토', '일'],
+                    datasets: [
+                        {
+                            labels: '주간 신고횟수',
+                            data: dayData,
+                            lineTension: 0,
+                            fill: false,
+                            borderColor: 'orange',
+                            backgroundColor: 'transparent',
+                            pointBorderColor: 'orange',
+                            pointBackgroundColor: 'rgba(255,150,0,0.5)',
+                            borderDash: [5, 5],
+                            pointRadius: 5,
+                            pointHoverRadius: 10,
+                            pointHitRadius: 30,
+                            pointBorderWidth: 2,
+                            pointStyle: 'rectRounded'
+                        }
+                    ]
+                };
+                var ctx = document.getElementById("dayChart").getContext("2d");
+                var options = { };
+                var dayChart = new Chart(ctx).Line(data, options);
+            }
+            function displayMonthChart() {
+                var mon = document.getElementById('mon').innerHTML;
+                var monData = JSON.parse("[" + mon + "]");
+                var data = {
+                    labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    datasets: [
+                        {
+                            labels: '월간 신고횟수',
+                            data: monData,
+                            lineTension: 0,
+                            fill: false,
+                            borderColor: 'orange',
+                            backgroundColor: 'transparent',
+                            pointBorderColor: 'orange',
+                            pointBackgroundColor: 'rgba(255,150,0,0.5)',
+                            borderDash: [5, 5],
+                            pointRadius: 5,
+                            pointHoverRadius: 10,
+                            pointHitRadius: 30,
+                            pointBorderWidth: 2,
+                            pointStyle: 'rectRounded'
+                        }
+                    ]
+                };
+                var ctx = document.getElementById("monthChart").getContext("2d");
+                var options = { };
+                var monthChart = new Chart(ctx).Line(data, options);
+            }
+            function displayTimeChart() {
+                var time = document.getElementById('time').innerHTML;
+                var timeData = JSON.parse("[" + time + "]");
+                var data = {
+                    labels: ['0시', '1시', '2시', '3시', '4시', '5시', '6시', '7시', '8시', '9시', '10시', '11시', '12시', '13시', '14시', '15시', '16시', '17시', '18시', '19시', '20시', '21시', '22시', '23시'],
+                    datasets: [
+                        {
+                            labels: '시간대별 신고횟수',
+                            data: timeData,
+                            lineTension: 0,
+                            fill: false,
+                            borderColor: 'orange',
+                            backgroundColor: 'transparent',
+                            pointBorderColor: 'orange',
+                            pointBackgroundColor: 'rgba(255,150,0,0.5)',
+                            borderDash: [5, 5],
+                            pointRadius: 5,
+                            pointHoverRadius: 10,
+                            pointHitRadius: 30,
+                            pointBorderWidth: 2,
+                            pointStyle: 'rectRounded'
+                        }
+                    ]
+                };
+                var ctx = document.getElementById("timeChart").getContext("2d");
+                var options = { };
+                var timeChart = new Chart(ctx).Line(data, options);
+            }
+
+            function displayPercentChart() {
+                var solved = document.getElementById('solved').innerHTML;
+                var notsolved = document.getElementById('notsolved').innerHTML;
+                var solvedData = JSON.parse("[" + solved + "]");
+                var notsolvedData = JSON.parse("[" + notsolved + "]");
+                var donutEL = document.getElementById("percentChart").getContext("2d");
+                var percentChart = new Chart(donutEL).Doughnut([
+                    {
+                        value: solvedData,
+                        color:"#46BFBD",
+                        highlight: "#5AD3D1",
+                        label: "해결"
+                    },
+                    {
+                        value: notsolvedData,
+                        color: "#F7464A",
+                        highlight: "#FF5A5E",
+                        label: "미해결"
+                    }
+                ],
+                // Options
+                {
+                    segmentShowStroke : true,
+                    segmentStrokeColor : "#fff",
+                    segmentStrokeWidth : 1,
+                    percentageInnerCutout : 50,
+                    animationSteps : 25,
+                    animationEasing : "easeInQuad",
+                    animateRotate : true,
+                    animateScale : false,
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    showScale: true,
+                    animateScale: true
+                });
+            }
+        </script>
+    </body>
+</html>

@@ -41,11 +41,14 @@
     "react-vis": "^1.9.4",
     "reactify": "^1.1.1",
     "request": "^2.87.0",
+    "response": "^0.18.0",
     "sse": "^0.0.8",
     "sse-express": "^1.0.2",
     "sse-nodejs": "^0.1.0",
     "ts-loader": "^4.4.1",
     "typescript": "^2.9.2",
+    "ursa": "^0.9.4",
+    "window-popup": "^1.1.0",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {

@@ -68,6 +68,8 @@ const mainRouter = require('./routes/main');
 const networkRouter = require('./routes/network');
 const reportTestRouter = require('./routes/reportTest');
 const blockchainRouter = require('./routes/blockchain');
+const staticsRouter = require('./routes/statics');
+const alarmRouter = require('./routes/alarm');
 
 
 configPassport(app, passport);
@@ -76,9 +78,10 @@ passportRouter(app, passport);
 profileRouter(app);
 networkRouter(app);
 reportTestRouter(app);
-blockchainRouter(app);
-
+blockchainRouter(app, fs);
+staticsRouter(app);
 mainRouter(app);
+alarmRouter(app);
 
 
 const errorHandler = expressErrorHandler({
@@ -90,13 +93,18 @@ const errorHandler = expressErrorHandler({
 app.use(expressErrorHandler.httpError(404));
 app.use(errorHandler);
 
-http.createServer(app).listen(config.server_http, function(){  
-  console.log("Http server listening on port " + config.server_http);
-});
+http.createServer(app).listen(config.server_dev, () => {
+    console.log('listening on dev port: '+config.server_dev)
+})
 
-https.createServer(options, app).listen(config.server_https, function(){  
-  console.log("Https server listening on port " + config.server_https);
-});
+// http.createServer(app).listen(config.server_http, function(){  
+//   console.log("Http server listening on port " + config.server_http);
+// });
+
+// https.createServer(options, app).listen(config.server_https, function(){  
+//   console.log("Https server listening on port " + config.server_https);
+// });
+
 /*http.listen(config.server_http, () => {
     console.log('listening on %s port', config.server_port);
 });*/

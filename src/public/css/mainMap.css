@@ -136,3 +136,16 @@ footer{
     .menubar p{
     clear:left;
     }
+
+    @media(max-width: 355px) {
+        #searchAdd {
+            width: inherit;
+        }
+        #address {
+            width: 100%;
+        }
+
+        #searchAjax {
+            width: 85%;
+        }
+    }
