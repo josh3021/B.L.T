@@ -63,6 +63,33 @@ module.exports = (app) => {
         res.redirect('/profile');
     });
     });
+
+    app.get('/profile/device_setting', (req, res) => {
+	let username = req.query.username;
+	let password = req.query.password;
+	let device = req.query.device;
+
+	const database = req.app.get('database');
+	database.UserModel.findOne({
+	    username: username	
+        }, (err, user) => {
+		if(err) throw err;
+		
+		if(!user)
+			return res.json({message: 'Can not find Valid Username: error 001'});
+
+		let authenticated = user.authenticated(password, user._doc.salt, user._doc.hashed_password);
+		if(!authenticated) {
+			return res.json({message: 'Invalid Username or Password: error 002'});
+		}
+		
+		user.device = device;
+		user.save(err => {
+			res.json({message: 'successfully saved'});
+		});
+		
+	});
+    });
 }
 
 

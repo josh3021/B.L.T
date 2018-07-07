@@ -4,7 +4,7 @@ Schema.createSchema = mongoose => {
     let ReportSchema = mongoose.Schema({
         username: {
             type: String,
-            unique: true,
+            required: true,
             'default': ''
         },
         telephone: {

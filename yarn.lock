@@ -4712,6 +4712,10 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
+js-alert@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/js-alert/-/js-alert-1.0.4.tgz#2362f077c76047be665a20e95cbc8ec9885c3fc9"
+
 js-base64@^2.1.9:
   version "2.4.5"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.5.tgz#e293cd3c7c82f070d700fc7a1ca0a2e69f101f92"

@@ -84,7 +84,7 @@ module.exports = (app) => {
                 from: 'vrms.koi <vrms.koi@gmail.com>',
                 to: paramEmail,
                 subject: 'Nodemailer 테스트',
-                html: '<h2>이메일 인증 링크</h2><div><p>밑의 문자열을 입력해 주세요</p><form action="http://45.119.146.229/emailAuth" method="POST"><input type="email" name="email" value="'+paramEmail+'" readonly /><input type="text" name="randomID" value="'+randomID+'"readonly  /><input type="text" name="token" placeholder="문자열 입력" /><input type="submit" value="이메일 인증"></form></div>'
+                html: '<h2>이메일 인증 링크</h2><div><p>밑의 문자열을 입력해 주세요</p><form action="https://45.119.146.229/emailAuth" method="POST"><input type="email" name="email" value="'+paramEmail+'" readonly /><input type="text" name="randomID" value="'+randomID+'"readonly  /><input type="text" name="token" placeholder="문자열 입력" /><input type="submit" value="이메일 인증"></form></div>'
             }
 
             transporter.sendMail(mailOptions, function(error, response){

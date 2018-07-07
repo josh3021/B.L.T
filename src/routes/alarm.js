@@ -1,4 +1,4 @@
-const popup = require('window-popup').windowPopup;
+const JSAlert = require('js-alert');
 
 module.exports = app => {
     app.get('/fencedata', (req, res) =>{
@@ -15,7 +15,7 @@ module.exports = app => {
 
         console.log('ne_x: '+req.session.ne_x+', ne_y: '+req.session.ne_y+', sw_x: '+req.session.sw_x+', sw_y: '+req.session.sw_y);
         console.log(req.session);
-        res.json({'message': 'success'});
+        res.send('fence가 설정되었습니다.');
     });
 
     app.get('/isChildIn', (req, res) => {
@@ -23,11 +23,29 @@ module.exports = app => {
             res.redirect('/');
         var child_x = req.query.childX; //126정도 값
         var child_y = req.query.childY; //37정도 값
-
+	var telephone = req.query.telephone;
+	
+	console.log('child_x: '+child_x+', child_y: '+child_y);
+	console.log('query: '+req.query.username+', '+child_x+', '+child_y+', '+req.query.telephone);
         console.log(req.session.ne_x+', '+req.session.ne_y+', '+req.session.sw_x+', '+req.session.sw_y+', '+req.session.username);
         if(child_x < req.session.sw_x || child_x > req.session.ne_x || child_y < req.session.sw_y || child_y > req.session.ne_y) {
             //알람
-            res.json({message: 'child is outofBounds'})
+	    const database = req.app.get('database');
+	    
+	    let reportuser = new database.ReportModel({
+		'username': req.query.username,
+		'telephone': telephone,
+		'position.x': child_x,
+		'position.y': child_y,
+		'danger': true
+	    });
+
+	   reportuser.save(err => {
+		if(err) throw err;
+		console.log('saved successfully');
+	   });
+
+	    		
         }
         res.json({message: 'child is inBounds'});
     });

@@ -21,9 +21,9 @@ let options = {
 	cert: fs.readFileSync('./cert/cert.pem')
 }
 
-/*const createServer = require('auto-sni');
+const createServer = require('auto-sni');
 
-var server = createServer({
+/*var server = createServer({
     email: 'joseonghwan3021@gmail.com', // Emailed when certificates expire.
     agreeTos: true, // Required for letsencrypt.
     debug: true, // Add console messages and uses staging LetsEncrypt server. (Disable in production)
@@ -45,7 +45,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'react')));
 app.use(expressSession({
     secret: 'my key',
     resave: false,
@@ -93,17 +92,17 @@ const errorHandler = expressErrorHandler({
 app.use(expressErrorHandler.httpError(404));
 app.use(errorHandler);
 
-http.createServer(app).listen(config.server_dev, () => {
-    console.log('listening on dev port: '+config.server_dev)
-})
+//http.createServer(app).listen(config.server_dev, () => {
+//    console.log('listening on dev port: '+config.server_dev)
+//})
 
-// http.createServer(app).listen(config.server_http, function(){  
+//http.createServer(app).listen(config.server_http, function(){  
 //   console.log("Http server listening on port " + config.server_http);
-// });
+//});
 
-// https.createServer(options, app).listen(config.server_https, function(){  
-//   console.log("Https server listening on port " + config.server_https);
-// });
+ https.createServer(options, app).listen(config.server_https, function(){  
+   console.log("Https server listening on port " + config.server_https);
+ });
 
 /*http.listen(config.server_http, () => {
     console.log('listening on %s port', config.server_port);

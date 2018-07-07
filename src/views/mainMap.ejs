@@ -97,7 +97,7 @@
             var infoWindows = [];
             var itemsArr = [];
 
-            var eventSource = new EventSource('http://localhost:8080/updates');
+            var eventSource = new EventSource('https://45.119.146.229/updates');
 
             eventSource.addEventListener('connected', (e) => {
                 console.log(e.data);
@@ -306,7 +306,7 @@
                 var infoR;
 
                 var logger = $('#logger');
-                var OVERAY_NAMES = ['rectangle', 'ellipse', 'polyline', 'arrowline', 'polygon', 'marker'];
+                var OVERAY_NAMES = ['rectangle'];
                 var EVENT_SUBFIXEX = ['Added', 'Selected', 'Removed'];
                 var GROUPED_EVENTS = [
                     naver.maps.drawing.DrawingEvents.ADD,
@@ -349,11 +349,11 @@
 
                 var contentString = [
                     '<div class="iw_inner">',
-                    '   <div><h6>이 반경에 아이펜스를 설정하시겠습니까?</h6>',
-                    '   <p id="ne_x" >'+settingArray[0]+'</p>',
-                    '   <p id="ne_y" >'+settingArray[1]+'</p>',
-                    '   <p id="sw_x" >'+settingArray[2]+'</p>',
-                    '   <p id="sw_y" >'+settingArray[3]+'</p>',
+                    '   <div><h6 id="settingTitle">이 반경에 아이펜스를 설정하시겠습니까?</h6>',
+                    '   <p id="ne_x" style="display: none">'+settingArray[0]+'</p>',
+                    '   <p id="ne_y" style="display: none">'+settingArray[1]+'</p>',
+                    '   <p id="sw_x" style="display: none">'+settingArray[2]+'</p>',
+                    '   <p id="sw_y" style="display: none">'+settingArray[3]+'</p>',
                     '   <input type="button" id="settingAjax" onclick = "setBounds()" value="설정" />',
                     '</div>'
                 ].join('');
@@ -378,7 +378,8 @@
                 xhr.send();
 
                 xhr.addEventListener('load', () => {
-                    console.log(xhr.message);
+                    console.log(xhr);
+		    document.getElementById('settingTitle').innerHTML = xhr.responseText;
                 })
             }
 
