@@ -96,9 +96,9 @@ app.use(errorHandler);
 //    console.log('listening on dev port: '+config.server_dev)
 //})
 
-//http.createServer(app).listen(config.server_http, function(){  
-//   console.log("Http server listening on port " + config.server_http);
-//});
+http.createServer(app).listen(config.server_http, function(){  
+   console.log("Http server listening on port " + config.server_http);
+});
 
  https.createServer(options, app).listen(config.server_https, function(){  
    console.log("Https server listening on port " + config.server_https);

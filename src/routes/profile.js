@@ -64,10 +64,10 @@ module.exports = (app) => {
     });
     });
 
-    app.get('/profile/device_setting', (req, res) => {
-	let username = req.query.username;
-	let password = req.query.password;
-	let device = req.query.device;
+    app.post('/profile/device_setting', (req, res) => {
+	let username = req.body.username;
+	let password = req.body.password;
+	let device = req.body.device;
 
 	const database = req.app.get('database');
 	database.UserModel.findOne({
@@ -76,16 +76,16 @@ module.exports = (app) => {
 		if(err) throw err;
 		
 		if(!user)
-			return res.json({message: 'Can not find Valid Username: error 001'});
+			return res.json({message: '001'});
 
 		let authenticated = user.authenticated(password, user._doc.salt, user._doc.hashed_password);
 		if(!authenticated) {
-			return res.json({message: 'Invalid Username or Password: error 002'});
+			return res.json({message: '002'});
 		}
 		
 		user.device = device;
 		user.save(err => {
-			res.json({message: 'successfully saved'});
+			res.json({message: '000'});
 		});
 		
 	});

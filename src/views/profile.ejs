@@ -24,8 +24,9 @@
             <input class="w3-button w3-border w3-border-white" style="width: 125px" type="button" onclick="location.href='https://45.119.146.229/getPoint'" value="포인트 주기"/>
 		    <input class="w3-button w3-border w3-border-white" style="width:125px;" type="button" id="isDanger" onclick="location.href='https://45.119.146.229/profile/safe'" value="안전">
         <% } %><br><Br>
-        <input class="w3-button w3-border w3-border-white" style="width:250px;" type="button" onclick="location.href='http://localhost:8080/logout'" value="로그아웃">
-        <div>
+        <input class="w3-button w3-border w3-border-white" style="width:125px;" type="button" onclick="location.href='https://45.119.146.229/main'" value="지도">
+        <input class="w3-button w3-border w3-border-white" style="width:125px;" type="button" onclick="location.href='https://45.119.146.229/logout'" value="로그아웃">
+	<div>
             <p>point: <%=point%></p>
             <p>email: <%= email %></p>
             <p>deviceNum: <% if(!device) { %>등록된 디바이스가 없음<% } %> <%= device %></p>
