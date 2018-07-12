@@ -18,7 +18,7 @@
         <div class="navbar-header" style="height: inherit">
             <div class="menubar w3-left">
                 <a href="/" class="w3-right">
-                    <img src="img/textlogo_white.png" height="50" class="img-responsive w3-animate-left">
+                    <img src="img/CPB.png" height="50" class="img-responsive w3-animate-left">
                 </a>
             </div>
             <div class="menubar w3-right">
@@ -53,8 +53,6 @@
     </section>
 
     <section class="w3-double" style="padding: 20px 40px;">
-        <input type="button" onclick="DrawingEvents" <div id="my-id">hello</div>
-        <div id="logger"></div>
 
         <div id="searchAdd" style="margin: 5px;">
             <input type="string" name="address" id="address" style="border: 0;margin: 0;height: 38px;border-radius: 5px;" />
@@ -266,7 +264,8 @@
             fillColor: '#ff0000',
             strokeWeight: 2,
             strokeColor: '#ff0000',
-            clickable: true
+            clickable: true,
+            drawingControl: [1]
         });
 
         var OVERAY_NAMES = ['rectangle', 'polygon'];
