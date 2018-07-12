@@ -4,7 +4,7 @@ module.exports = (app) => {
         console.log('/crt 패스 요청됨.');
         res.render('reportTest.ejs');
     });
-    
+
     app.post('/crt', (req, res) => {
         console.log('post crt!');
         let username = req.body.username;
@@ -15,7 +15,7 @@ module.exports = (app) => {
 
         const database = req.app.get('database');
 
-        console.log('telephone: '+telephone+', x: '+x+', y: '+y+', num: '+num);
+        console.log('telephone: ' + telephone + ', x: ' + x + ', y: ' + y + ', num: ' + num);
 
         let reportuser = new database.ReportModel({
             'username': username,
@@ -26,18 +26,18 @@ module.exports = (app) => {
             'danger': true
         });
         reportuser.save(err => {
-            if(err)
+            if (err)
                 throw err;
             console.log('successfully saved reported user at ReportModel database');
         });
 
         database.UserModel.findOne({
             username: username
-        },(err, user) => {
+        }, (err, user) => {
             user.danger = true;
 
             user.save(err => {
-                if(err)
+                if (err)
                     throw err;
 
                 console.log('successfully saved usermodel');

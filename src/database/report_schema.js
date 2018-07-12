@@ -5,6 +5,7 @@ Schema.createSchema = mongoose => {
         username: {
             type: String,
             required: true,
+            unique: false,
             'default': ''
         },
         telephone: {

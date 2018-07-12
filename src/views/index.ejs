@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-    <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>V.R.M.S</title>
@@ -9,60 +10,80 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <style>
-    @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css); 
-    body{   
-        font-family: "Nanum Gothic", sans-serif!important;
-    }
+        @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+        body {
+            font-family: "Nanum Gothic", sans-serif !important;
+        }
     </style>
-    </head>
-    <body class="blur">
-                
+</head>
 
-        <div class="container text-center">
-
-            <div class="col-md-6 description">
-                <h3>서비스 설명</h3>
-                <p>Is post each that just leaf no. He connection interested so we an sympathize advantages.
-                    To said is it shed want do. Occasional middletons everything so to. Have spot part for his quit may. Enable it is square my an regard.
-                    Often merit stuff first oh up hills as he. Servants contempt as although addition dashwood is procured. Interest in yourself an do of numerous feelings cheerful confined. 
-                </p>
-                <br>
+<body class="blur">
 
 
-            </div>
+    <div class="container text-center">
 
-            <% if(!user) { %>           
-                <form action="/login"  class="col-md-6" method="POST">
-                    <div><a href="/"><img class="img-fluid" src="img/text_logo_explain.png" height="80" ></a></div><Br>
-                    <div style="margin-bottom: 1%;" class="input-group" >
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input id="username" type="text" class="form-control" name="username"  placeholder="아이디">
-                    </div>
+        <div class="col-md-6 description">
+            <h3>서비스 설명</h3>
+            <p>Is post each that just leaf no. He connection interested so we an sympathize advantages. To said is it shed want
+                do. Occasional middletons everything so to. Have spot part for his quit may. Enable it is square my an regard.
+                Often merit stuff first oh up hills as he. Servants contempt as although addition dashwood is procured. Interest
+                in yourself an do of numerous feelings cheerful confined.
+            </p>
+            <br>
 
-                    <div style="margin-bottom: 1%;" class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input id="password" type="password" class="form-control" name="password" placeholder="비밀번호">
-                    </div>
 
-                    <br>
-                    <input type="submit" class="login_submit"  value="로그인" />
-
-                    <hr style="width:30%;border-top-width: 2px;" color="#000000" />
-                    <p> 계정이 없으신가요? | <a href="/emailAuth" class="signup_submit"> 회원 가입  </a></p>
-                </form>
-            <% } %>
-            <div class="welcome_div">
-	        <% if(user) { %>
-                    <p class="col-md-6" style="font-size: 4rem; width: 100%"><b>Welcome <%=user%>!</b></p>
-                    <a class="userlink" href="/profile">프로필</a><br><br>
-                    <a class="userlink" href="/main">지도로 이동하기</a><br><br>
-                    <a class="userlink" href="/statics">통계</a><br><br>
-                    <a class="userlink" href="/logout">로그아웃</a>
-            <% } %>
-            </div>
         </div>
-    </body>
+
+        <% if(!user) { %>
+            <form action="/login" class="col-md-6" method="POST">
+                <div>
+                    <a href="/">
+                        <img class="img-fluid" src="img/text_logo_explain.png" height="80">
+                    </a>
+                </div>
+                <Br>
+                <div style="margin-bottom: 1%;" class="input-group">
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </span>
+                    <input id="username" type="text" class="form-control" name="username" placeholder="아이디">
+                </div>
+
+                <div style="margin-bottom: 1%;" class="input-group">
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-lock"></i>
+                    </span>
+                    <input id="password" type="password" class="form-control" name="password" placeholder="비밀번호">
+                </div>
+
+                <br>
+                <input type="submit" class="login_submit" value="로그인" />
+
+                <hr style="width:30%;border-top-width: 2px;" color="#000000" />
+                <p> 계정이 없으신가요? |
+                    <a href="/emailAuth" class="signup_submit"> 회원 가입 </a>
+                </p>
+            </form>
+            <% } %>
+                <div class="welcome_div">
+                    <% if(user) { %>
+                        <p class="col-md-6" style="font-size: 4rem; width: 100%">
+                            <b>Welcome
+                                <%=user%>!</b>
+                        </p>
+                        <a class="userlink" href="/profile">프로필</a>
+                        <br>
+                        <br>
+                        <a class="userlink" href="/main">지도로 이동하기</a>
+                        <br>
+                        <br>
+                        <a class="userlink" href="/statics">통계</a>
+                        <br>
+                        <br>
+                        <a class="userlink" href="/logout">로그아웃</a>
+                        <% } %>
+                </div>
+    </div>
+</body>
+
 </html>
-
-
-

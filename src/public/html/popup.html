@@ -5,16 +5,23 @@
         <title>V.R.M.S</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="./css/w3.css">
+        <link rel="stylesheet" type="text/css" href="/css/w3.css">
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     </head>
     <body>
         <br>
-        <form class="w3-panel w3-card-4" id="updatePassword" action="/profile/updatePassword" method="POST">
-                <input class="w3-input" type="text" name="newPassword" style="border-bottom: 2px #f1f1f1 solid;margin: 0 68px 0 0px;font-size: 14px;color:white; font-family: Nanum Gothic, sans-serif!important;" placeholder="새로운 비밀번호" /><br><br>
-                <input class="w3-input" type="text" name="confirmPassword" style="border-bottom: 2px #f1f1f1 solid;margin: 0 5px 0 0px;font-size: 14px;color:white;
-                font-family: Nanum Gothic, sans-serif!important;" placeholder="비밀번호 확인" />
-            <input class="w3-button w3-border" style="padding: 7px" type="submit"  value="바꾸기" />
-        </form>
+        <div class="w3-container">
+            <form class="w3-panel w3-card-4" id="updatePassword" action="/profile/updatePassword" method="POST">
+                <p>
+                    <label>새로운 비밀번호</label><br>
+                    <input class="w3-input" type="text" name="newPassword" placeholder="새로운 비밀번호" />
+                </p>
+                <p>
+                    <label>비밀번호 확인</label><br>
+                    <input class="w3-input" type="text" name="confirmPassword" placeholder="비밀번호 확인" />
+                </p>
+                <input class="w3-btn w3-black" type="submit"  value="바꾸기" />
+            </form>
+        </div>
     </body>
 </html>

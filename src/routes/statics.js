@@ -1,4 +1,24 @@
 module.exports = app => {
+
+
+    app.get('/statics/user', (req, res) => {
+        const database = req.app.get('database');
+        database.ReportModel.find({}, function(err, user) {
+            if(err)
+                throw err;
+
+            if(user) {
+                let UserDan = new Array();
+                let UserRep = new Array();
+                for(i in user) {
+                    UserDan.push(user[i].danger);
+                    UserRep.push(user[i].report_at);
+                }
+                res.send({ UserDan: UserDan, UserRep: UserRep });
+            }
+        });
+    });
+    
     app.get('/statics', (req, res) => {
         const database = req.app.get('database');
         database.ReportModel.find({

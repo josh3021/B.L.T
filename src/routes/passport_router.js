@@ -1,8 +1,6 @@
-
-    
 module.exports = (app, passport) => {
     console.log('user_passport 호출됨');
-    
+
 
     // login form
     app.post('/login', passport.authenticate('local-login', {
@@ -36,6 +34,5 @@ module.exports = (app, passport) => {
         res.redirect('/');
     });
 
-    
+
 };
-    

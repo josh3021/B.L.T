@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const expressErrorHandler = require('express-error-handler');
-const ejs = require('ejs');
 const passport = require('passport');
 const flash = require('connect-flash');
 const engine = require('ejs-locals');
@@ -17,8 +16,8 @@ const https = require('https');
 const fs = require('fs');
 
 let options = {
-	key: fs.readFileSync('./cert/key.pem'),
-	cert: fs.readFileSync('./cert/cert.pem')
+    key: fs.readFileSync('./cert/key.pem'),
+    cert: fs.readFileSync('./cert/cert.pem')
 }
 
 const createServer = require('auto-sni');
@@ -54,8 +53,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-app.use(express.static('dist'));
-
 const database = require('./database/database');
 database.init(app);
 
@@ -64,23 +61,25 @@ const indexRouter = require('./routes/index');
 const passportRouter = require('./routes/passport_router');
 const profileRouter = require('./routes/profile');
 const mainRouter = require('./routes/main');
-const networkRouter = require('./routes/network');
+const authRouter = require('./routes/auth');
 const reportTestRouter = require('./routes/reportTest');
-const blockchainRouter = require('./routes/blockchain');
+const pointRouter = require('./routes/point');
 const staticsRouter = require('./routes/statics');
 const alarmRouter = require('./routes/alarm');
+const paymentRouter = require('./routes/payment');
 
 
 configPassport(app, passport);
 indexRouter(app);
 passportRouter(app, passport);
 profileRouter(app);
-networkRouter(app);
+authRouter(app);
 reportTestRouter(app);
-blockchainRouter(app, fs);
+pointRouter(app, fs);
 staticsRouter(app);
 mainRouter(app);
 alarmRouter(app);
+paymentRouter(app);
 
 
 const errorHandler = expressErrorHandler({
@@ -92,17 +91,17 @@ const errorHandler = expressErrorHandler({
 app.use(expressErrorHandler.httpError(404));
 app.use(errorHandler);
 
-//http.createServer(app).listen(config.server_dev, () => {
-//    console.log('listening on dev port: '+config.server_dev)
-//})
+http.createServer(app).listen(config.server_dev, () => {
+    console.log('listening on dev port: ' + config.server_dev)
+})
 
-http.createServer(app).listen(config.server_http, function(){  
-   console.log("Http server listening on port " + config.server_http);
-});
+// http.createServer(app).listen(config.server_http, function(){  
+//    console.log("Http server listening on port " + config.server_http);
+// });
 
- https.createServer(options, app).listen(config.server_https, function(){  
-   console.log("Https server listening on port " + config.server_https);
- });
+//  https.createServer(options, app).listen(config.server_https, function(){  
+//    console.log("Https server listening on port " + config.server_https);
+//  });
 
 /*http.listen(config.server_http, () => {
     console.log('listening on %s port', config.server_port);
