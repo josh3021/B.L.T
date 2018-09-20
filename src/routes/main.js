@@ -21,9 +21,7 @@ module.exports = app => {
     app.get('/updates', sseExpress, (req, res) => {
 
         var database = req.app.get('database');
-        var x = new Array();
-        var y = new Array();
-        var date = new Array();
+        var x, y, date = [];
         database.ReportModel.find({
             'danger': true
         }, (err, user) => {
@@ -64,11 +62,7 @@ module.exports = app => {
                 // var responseData = {'result' : body};
                 // res.json(responseData);
                 parser.parseString(body, function (err, result) {
-                    var titles = new Array();
-                    var telephones = new Array();
-                    var roadAddresss = new Array();
-                    var mapxs = new Array();
-                    var mapys = new Array();
+                    var titles, telephones, roadAddresss, mapxs, mapys = [];
                     for (var i in result.rss.channel.item) {
                         titles.push(result.rss.channel.item[i].title);
                         telephones.push(result.rss.channel.item[i].telephone);
