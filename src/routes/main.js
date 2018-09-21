@@ -5,8 +5,8 @@ module.exports = app => {
     var parser = new xml2js.Parser({
         explicitArray: false
     });
-    var client_id = 'EzUf5_07z65lc8sKq2px';
-    var client_secret = 'p1aoeu7FQO';
+    var client_id = 'Your_Naver_Client_id';
+    var client_secret = 'Your_Naver_Client_secret';
 
     app.get('/main', (req, res) => {
         if (!req.session.username) {
@@ -35,9 +35,6 @@ module.exports = app => {
                     date.push(user[i].report_at);
                 }
             }
-            console.log('x: ' + x);
-            console.log('y: ' + y);
-            console.log('date: ' + date);
 
             res.sse('connected', {
                 x: x,
