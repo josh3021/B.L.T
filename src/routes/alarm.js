@@ -1,12 +1,11 @@
 const nodemailer = require('nodemailer');
 const xml2js = require('xml2js');
-var parser = new xml2js.Parser({
+const parser = new xml2js.Parser({
     explicitArray: false
 });
 
 module.exports = app => {
     app.get('/fencedata', (req, res) => {
-        console.log(req.query);
         var ne_x = req.query.ne_x;
         var ne_y = req.query.ne_y;
         var sw_x = req.query.sw_x;
@@ -17,20 +16,16 @@ module.exports = app => {
         req.session.sw_x = sw_x;
         req.session.sw_y = sw_y;
 
-        console.log('ne_x: ' + req.session.ne_x + ', ne_y: ' + req.session.ne_y + ', sw_x: ' + req.session.sw_x + ', sw_y: ' + req.session.sw_y);
-        console.log(req.session);
         res.send('fence가 설정되었습니다.');
     });
 
     app.post('/isChildIn', (req, res) => {
         if (!req.session.username === req.body.username)
             res.redirect('/');
-        var childX = req.body.childX; //126정도 값
-        var childY = req.body.childY; //37정도 값
-        var telephone = req.query.telephone;
+        let childX = req.body.childX; //126정도 값
+        let childY = req.body.childY; //37정도 값
+        let telephone = req.body.telephone;
 
-        console.log('query: ' + req.body.username + ', ' + childX + ', ' + childY + ', ' + req.body.telephone);
-        console.log(req.session.ne_x + ', ' + req.session.ne_y + ', ' + req.session.sw_x + ', ' + req.session.sw_y + ', ' + req.session.username);
         if (childX > req.session.ne_x || childY > req.session.ne_y || childX < req.session.sw_x || childY < req.session.sw_y) {
             //알람
             const database = req.app.get('database');
@@ -48,7 +43,6 @@ module.exports = app => {
                 user.danger = true;
                 user.save(err => {
                     if (err) throw err;
-                    console.log('change UserModel danger: ture');
                 });
 
                 var pos = childY + ',' + childX;
@@ -104,7 +98,6 @@ module.exports = app => {
         }, (err, user) => {
             if(err) throw err;
             user.danger = true;
-            console.log('hello')
             let pos = y + ', ' + x + '';
             reportsendEmail(user.email, pos);
 
