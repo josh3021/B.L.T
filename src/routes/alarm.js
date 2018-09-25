@@ -22,12 +22,10 @@ module.exports = app => {
     app.post('/isChildIn', (req, res) => {
         if (!req.session.username === req.body.username)
             res.redirect('/');
-        let childX = req.body.childX; //126정도 값
-        let childY = req.body.childY; //37정도 값
-        let telephone = req.body.telephone;
+        let childX = req.body.childX;
+        let childY = req.body.childY;
 
         if (childX > req.session.ne_x || childY > req.session.ne_y || childX < req.session.sw_x || childY < req.session.sw_y) {
-            //알람
             const database = req.app.get('database');
             database.UserModel.findOne({
                 'username': req.session.username
@@ -45,7 +43,7 @@ module.exports = app => {
                     if (err) throw err;
                 });
 
-                var pos = childY + ',' + childX;
+                let pos = childY + ',' + childX;
                 sendEmail(user.email, pos);
             });
 
@@ -72,26 +70,21 @@ module.exports = app => {
     });
 
     app.get('/userroute', (req, res) => {
-        var x = req.query.pos_x;
-        var y = req.query.pos_y;
+        let x = req.query.pos_x;
+        let y = req.query.pos_y;
 
         if (!req.session.child_pos) {
             req.session.child_pos = new Array();
         }
 
         req.session.child_pos.push(new Object(x, y));
-        console.log(req.session.child_pos);
     });
 
     app.post('/report', (req, res) => {
         let x = req.body.x;
         let y = req.body.y;
-        let telephone = req.body.telephone;
         let username = req.body.username;
-        const database = req.app.get('database');
-
-        console.log('telephone: ' + telephone + ', x: ' + x + ', y: ' + y + ', username: '+username);
-
+        const database = req.app.get('database')
 
         database.UserModel.findOne({
             'username': username
@@ -130,8 +123,8 @@ module.exports = app => {
     function sendEmail(email, pos) {
         console.log('pos: ' + pos);
         var api_url = 'https://openapi.naver.com/v1/map/reversegeocode.xml?query=' + encodeURI(pos);
-        var client_id = 'EzUf5_07z65lc8sKq2px';
-        var client_secret = 'p1aoeu7FQO';
+        var client_id = YOUR_CLIENT_ID;
+        var client_secret = YOUR_CLIENT_SECRET;
         var request = require('request');
         var options = {
             url: api_url,
